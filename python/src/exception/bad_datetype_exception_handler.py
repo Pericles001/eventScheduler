@@ -3,7 +3,7 @@ File: bad_datetype_exception_handler.py
 Class: BadDateTypeExceptionHandler - contains the exception handler for the date type exception (when the value is not datetime.date).
 - inherits from ExceptionHandler
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from python.src.exception.exception_handler import ExceptionHandler
 
@@ -27,16 +27,21 @@ class BadDateTypeExceptionHandler(ExceptionHandler):
             :param target: the input date value that caused the exception
         """
         print(exception)
+        # check if the target value is a datetime.date object
+        if not isinstance(target, datetime.date):
+            # If the input IS NOT 'datetime.date' we need to handle it
+            if isinstance(target, datetime.datetime):
+                # Convert the 'datetime.datetime' object to 'datetime.date'
+                target = target.date()
+                print("The target value has been transformed to a datetime.date object...")
+            elif isinstance(target, str):
+                # Transform string (as before)
+                target = datetime.strptime(target, "%Y-%m-%d").date()
+                print("The target value has been transformed to a datetime object...")
+            else:
+                # Handle other incorrect types (e.g., generate random date)
+                print("The target value is not a supported date type, generating a random date in the future week...")
+                current_date = datetime.now().date()
+                target = current_date + timedelta(days=7)
 
-        # find the type of the target
-        target_type = type(target)
-        if target_type == str:
-            #     transform the target value to a datetime object ("yyyy-mm-dd" to datetime.date)
-            target = datetime.strptime(target, "%Y-%m-%d").date()
-            print("The target value has been transformed to a datetime object...")
-            return target
-        else:
-            # generate a random date in the future week
-            print("The target value is not a string, generating a random date in the future week...")
-            target = datetime.now().date()
-            return target
+        return target
