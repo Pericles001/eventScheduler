@@ -13,7 +13,7 @@ import python.src.exception.bad_type_description_exception_handler as btdh
 import python.src.exception.empty_description_exception_handler as edeh
 
 
-class Event():
+class Event:
     """
     Class: Event
     Purpose: contains the attributes of the event object.
@@ -74,22 +74,24 @@ class Event():
         :param value:
         :return:
         """
+        current_date = datetime.date.today()
         try:
-            if not isinstance(value, datetime.date):
-                raise TypeError("Date must be a datetime object")
-            elif value < datetime.datetime.now().date():
-                raise ValueError("Date cannot be in the past")
-            elif value == "":
-                raise ValueError("Date cannot be empty")
+            if isinstance(value, datetime.date):
+                if value < current_date:
+                    raise ValueError("Date cannot be in the past")
+                self.__date = value
+            elif isinstance(value, str):
+                parsed_date = datetime.datetime.strptime(value, "%Y-%m-%d").date()
+                if parsed_date < current_date:
+                    raise ValueError("Date cannot be in the past")
+                self.__date = parsed_date
+            else:
+                raise TypeError("Date must be a datetime.date object or a string in format 'yyyy-mm-dd'")
+        except ValueError as ve:
+            pdeh.PastDateExceptionHandler.handle_exception(ve, value)
             self.__date = value
         except TypeError as te:
             bdteh.BadDateTypeExceptionHandler.handle_exception(te, value)
-            self.__date = value
-        except ValueError as ve:
-            if ve.args[0] == "Date cannot be empty":
-                edeh.EmptyDateExceptionHandler.handle_exception(ve, value)
-            elif ve.args[0] == "Date cannot be in the past":
-                pdeh.PastDateExceptionHandler.handle_exception(ve, value)
             self.__date = value
 
     @property
