@@ -42,4 +42,4 @@ class TestEvent(unittest.TestCase):
         Test creating an event with an invalid description.
         """
         with self.assertRaises(TypeError):
-            Event("Test Event", datetime(2020, 1, 1), 123)
+            Event("Test Event", datetime.date(2020, 1, 1), 123)
