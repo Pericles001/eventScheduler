@@ -26,15 +26,15 @@ class EventRepository:
         """
         self.events.append(event)
 
-    def get_event(self, name):
+    def get_event(self, title):
         """
         Get an event from the repository.
 
         Args:
-            name (string): The name of the event to get.
+            title (string): The name of the event to get.
         """
         for event in self.events:
-            if event.name == name:
+            if event.title == title:
                 return event
         return None
 
@@ -44,27 +44,113 @@ class EventRepository:
         """
         return self.events
 
-    def update_event(self, name, event):
+    def update_event(self, title, event):
         """
         Update an event in the repository.
 
         Args:
-            name (string): The name of the event to update.
+            title (string): The name of the event to update.
             event (Event): The updated event.
         """
         for i in range(len(self.events)):
-            if self.events[i].name == name:
+            if self.events[i].title == title:
                 self.events[i] = event
                 return
 
-    def delete_event(self, name):
+    def delete_event(self, title):
         """
         Delete an event from the repository.
 
         Args:
-            name (string): The name of the event to delete.
+            title (string): The name of the event to delete.
         """
         for i in range(len(self.events)):
-            if self.events[i].name == name:
+            if self.events[i].name == title:
                 del self.events[i]
                 return
+
+
+class UserRepository:
+    """
+Class: UserRepository
+Purpose: contains the repository for the user object.
+"""
+
+    def __init__(self):
+        """
+        Initialize a new user repository.
+        """
+        self.users = []
+
+    def add_user(self, user):
+        """
+        Add a new user to the repository.
+
+        Args:
+            user (User): The user to add.
+            :param user:
+            :param self:
+        """
+        self.users.append(user)
+
+    def get_user(self, username):
+        """
+        Get a user from the repository.
+        :param self:
+        :param username:
+        :return:
+        """
+        for user in self.users:
+            if user.username == username:
+                return user
+        return None
+
+    def get_all_users(self):
+        """
+        Get all users from the repository.
+        """
+        return self.users
+
+    def update_user(self, username, user):
+        """
+        Update a user in the repository.
+        :param self:
+        :param username:
+        :param user:
+        :return:
+        """
+        for i in range(len(self.users)):
+            if self.users[i].username == username:
+                self.users[i] = user
+                return
+
+    def delete_user(self, username):
+        """
+        Delete a user from the repository.
+        :param self:
+        :param username:
+        :return:
+        """
+        for i in range(len(self.users)):
+            if self.users[i].username == username:
+                del self.users[i]
+                return
+
+    def get_repo_length(self):
+        """
+        Get the length of the repository.
+        :param self:
+        :return:
+        """
+        return len(self.users)
+
+    def get_user_by_username(self, username):
+        """
+        Get a user from the repository by username.
+        :param username:
+        :return:
+        """
+        for user in self.users:
+            if user.username == username:
+                return user
+        return None
