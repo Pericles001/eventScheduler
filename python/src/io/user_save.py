@@ -50,37 +50,6 @@ class SaveUser:
         """
         self.users = {}
 
-    #
-    # def load_users(self):
-    #     """
-    #     Load the users from the file.
-    #
-    #     Returns:
-    #         None
-    #     """
-    #     try:
-    #         file_path = "data/out/users.txt"
-    #         with open(file_path, "r") as in_file:
-    #             # Check if the file is empty
-    #             if os.stat(file_path).st_size == 0:
-    #                 print("User details file is empty.")
-    #                 return self.users
-    #
-    #             user_id = 0  # Unique identifier for each user
-    #             for line in in_file:
-    #                 user_data = line.strip().split(",")  # Strip to remove trailing newline
-    #                 # Check if the user data is not empty
-    #                 if user_data:
-    #                     # Save all the user data in a dictionary with unique identifier as key
-    #                     self.users[user_id] = user_data
-    #                     user_id += 1  # Increment the unique identifier for the next user
-    #         print("User details loaded successfully!")
-    #     except Exception as e:
-    #         print("Error loading user details:", e)
-    #     finally:
-    #         in_file.close()
-    #         return self.users
-
     def save_user(self, user):
         """
         Save a user informations in a file.
