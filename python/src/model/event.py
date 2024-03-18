@@ -4,13 +4,14 @@ File: event.py
 Class: Event - represents an event in the scheduler system.
 """
 import datetime
+
 import python.src.exception.bad_datetype_exception_handler as bdteh
-import python.src.exception.empty_name_exception_handler as eneh
-import python.src.exception.bad_nametype_exception_handler as bnte
-import python.src.exception.empty_date_exception_handler as edeh
-import python.src.exception.past_date_exception_handler as pdeh
+import python.src.exception.bad_titletype_exception_handler as bnte
 import python.src.exception.bad_type_description_exception_handler as btdh
+import python.src.exception.empty_date_exception_handler as edeh
 import python.src.exception.empty_description_exception_handler as edeh
+import python.src.exception.empty_title_exception_handler as eneh
+import python.src.exception.past_date_exception_handler as pdeh
 
 
 class Event:
@@ -19,7 +20,7 @@ class Event:
     Purpose: contains the attributes of the event object.
     """
 
-    def __init__(self, name, date, description):
+    def __init__(self, title, date, description):
         """
         Initialize a new event.
 
@@ -28,20 +29,20 @@ class Event:
             date (datetime [yyyy-mm-dd]): represents the date of the event in the format yyyy-mm-dd.
             description (string): description of the event.
         """
-        self.name = name
+        self.title = title
         self.date = date
         self.description = description
 
     @property
-    def name(self):
+    def title(self):
         """
         Get/set the name of the event
         :return: current name
         """
-        return self.__name
+        return self.__title
 
-    @name.setter
-    def name(self, value):
+    @title.setter
+    def title(self, value):
         """
         :param value: 
         :return: 
@@ -49,16 +50,16 @@ class Event:
         try:
             if isinstance(value, str):
                 if value == "":
-                    raise ValueError("Name cannot be empty")
-                self.__name = value
+                    raise ValueError("title cannot be empty")
+                self.__title = value
             else:
-                raise TypeError("Name must be a string")
+                raise TypeError("title must be a string")
         except ValueError as ve:
             eneh.EmptyNameExceptionHandler.handle_exception(ve, value)
-            self.__name = value
+            self.__title = value
         except TypeError as te:
             bnte.BadNameTypeExceptionHandler.handle_exception(te, value)
-            self.__name = value
+            self.__title = value
 
     @property
     def date(self):
