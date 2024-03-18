@@ -1,17 +1,22 @@
-[{
-  "title": "The Shawshank Redemption",
+[
+  {
+    "title": "The Shawshank Redemption",
     "date": "2024-04-01",
     "description": "Two imprisoned people trying to survive in a prison."
-}, {
-  "title": "The Godfather",
+  },
+  {
+    "title": "The Godfather",
     "date": "2024-04-01",
     "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son."
-}, {
-  "title": "The Dark Knight",
+  },
+  {
+    "title": "The Dark Knight",
     "date": "2024-04-01",
     "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
-}, {
-  "title": "12 Angry",
+  },
+  {
+    "title": "12 Angry",
     "date": "2024-04-01",
     "description": "A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence."
-}]
+  }
+]
