@@ -4,6 +4,7 @@ Class: TestEventRepository - contains the tests for the event repository.
 """
 
 import unittest
+
 from python.src.model.event import Event
 from python.src.repository.repository import EventRepository
 
