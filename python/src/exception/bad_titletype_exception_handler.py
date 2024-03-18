@@ -1,5 +1,5 @@
 """
-File: bad_nametype_exception_handler.py
+File: bad_titletype_exception_handler.py
 Class: BadNameTypeExceptionHandler - contains the exception handler for the name type exception (when the value is not a string).
 """
 
