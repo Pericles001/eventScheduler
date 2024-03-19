@@ -92,7 +92,7 @@ class TestUserService(unittest.TestCase):
 
     def test_update_user(self):
         """
-        Test the update_user method.
+        Test the update_user_status method.
         :return:
         """
         user_data = {
@@ -110,5 +110,5 @@ class TestUserService(unittest.TestCase):
             "full_name": "new_full_name",
             "status": 1
         }
-        self.user_service.update_user("test_username", user_data)
+        self.user_service.update_user_status("test_username", user_data)
         self.assertEqual(self.user_service.get_user("test_username").full_name, "new_full_name")
