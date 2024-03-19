@@ -162,18 +162,6 @@ class User:
         self.password = hashlib.sha256(self.password.encode()).hexdigest()
         return self.password
 
-    # def login(self):
-    #     """
-    #     Login the user.
-    #     :return: True if the user is authenticated, False otherwise, using the AuthUser class
-    #     """
-    #     user_auth = auth_user.AuthUser(self.username, self.password)
-    #     authenticated = user_auth.authenticate()
-    #     if authenticated:
-    #         self.status = 1
-    #     else:
-    #         self.status = 0
-    #     return authenticated
 
     def logout(self):
         """
