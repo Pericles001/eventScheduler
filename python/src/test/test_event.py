@@ -5,6 +5,7 @@ Class: TestEvent - contains the tests for creating and reading the event object.
 
 import unittest
 from datetime import datetime
+
 from python.src.model.event import Event
 
 

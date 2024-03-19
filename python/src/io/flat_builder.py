@@ -44,7 +44,7 @@ class FlatBuilder(builder.Builder):
             events = repo.EventRepository()
             # for each line in the file
             for line in lines:
-                # each line is one event: title, date, description (comma separated values)
+                # each line is one event: title; date; description (comma separated values)
                 parts = line.strip().split("; ")
                 title = parts[0].split(": ")[1]  # Extract title from the format "Title: <title>"
                 date = parts[1].split(": ")[1]  # Extract date from the format "Date: yyyy-mm-dd"

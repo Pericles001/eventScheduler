@@ -1,5 +1,5 @@
 """
-File: empty_name_exception_handler.py
+File: empty_title_exception_handler.py
 Class: EmptyNameExceptionHandler - contains the exception handler for the event object - specifically for an empty name.
 """
 from python.src.exception.exception_handler import ExceptionHandler

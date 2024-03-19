@@ -1,0 +1,29 @@
+[
+    {
+        "username": "test",
+        "password": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "email": "test",
+        "full_name": "test",
+        "status": 0,
+        "events": [
+            {
+                "title": "Summer BBQ",
+                "date": "2024-07-04",
+                "description": "Grilled burgers, hot dogs, and fireworks."
+            },
+            {
+                "title": "test2",
+                "date": "2024-05-10",
+                "description": "test2"
+            }
+        ]
+    },
+    {
+        "username": "bg",
+        "password": "3f14db6ed20043e880a29460790f5f5cec2a7d38c41795e59fdac71789322af2",
+        "email": "bg",
+        "full_name": "bg",
+        "status": 1,
+        "events": []
+    }
+]
