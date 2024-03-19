@@ -55,4 +55,5 @@ class FlatBuilder(builder.Builder):
                 # add the event to the list
                 events.add_event(event)
         # return the event list
-        return events
+        print(event)
+        return event
