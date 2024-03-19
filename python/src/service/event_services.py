@@ -3,12 +3,12 @@
 File: event_services.py
 Class: EventServices - contains the services for the event object  (operations on the event object).
 """
+import json
 
-from datetime import datetime, timedelta
-import python.src.repository.repository as repo
-import python.src.model.event as event
-import python.src.io.json_builder
 import python.src.io.flat_builder
+import python.src.io.json_builder
+import python.src.model.event as event
+import python.src.repository.repository as repo
 
 
 class EventServices:
@@ -20,7 +20,7 @@ class EventServices:
     def __init__(self):
         self.repo = repo.EventRepository()
 
-    def create_event(self, title, date, description):
+    def create_event(self, title, date, description, event_owner, sys_users, datafile):
         """
         Create a new event.
 
@@ -33,34 +33,81 @@ class EventServices:
         :param description:
         :return:
         """
+        owner_name = event_owner
+        print("Owner name", owner_name)
         try:
             new_event = event.Event(title, date, description)
             self.repo.add_event(new_event)
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    print("Event: ", new_event.title, " ",
+                          new_event.date, " ", new_event.description)
+                    # Append the event details to the corresponding user's events list
+                    convert_date = str(new_event.date.strftime('%Y-%m-%d'))
+                    print("Event date: ", convert_date)
+                    user_data["events"].append(
+                        {"title": new_event.title, "date": convert_date, "description": new_event.description})
+                    print("Event added to user list")
+
+                    with open(datafile, 'w') as f:
+                        json.dump(sys_users, f, indent=4)
+                        print("Data written to file")
+
+                    break
         except ValueError as ve:
             print(ve)
         except TypeError as te:
             print(te)
 
-    def get_all_events(self):
+    def get_all_events(self, events_owner, sys_users):
         """
         Get all events from the repository.
         """
+        owner_name = events_owner
+        print("Owner name", owner_name)
         try:
-            return self.repo.get_all_events()
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    #             display events in a table like format
+                    print("Events: ", user_data["events"], "\n")
+                    for event in user_data["events"]:
+                        print("Title: ", event["title"])
+                        print("Date: ", event["date"])
+                        print("Description: ", event["description"])
+                        print("\n")
+                    return user_data["events"]
         except ValueError as ve:
             print(ve)
         except TypeError as te:
             print(te)
 
-    def get_event(self, title):
+    def get_event(self, title, events_owner, sys_users):
         """
         Get an event from the repository.
 
         Args:
             title (string): The name of the event to get.
         """
+        owner_name = events_owner
+        print("Owner name", owner_name)
+
         try:
-            return self.repo.get_event(title)
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    for event in user_data["events"]:
+                        if event["title"] == title:
+                            # print the event details
+                            print("Title: ", event["title"])
+                            print("Date: ", event["date"])
+                            print("Description: ", event["description"])
+                            print("\n")
+                            return event
+
+                    print("Event not found")
+                    return None
         except ValueError as ve:
             print(ve)
         except TypeError as te:
@@ -82,17 +129,6 @@ class EventServices:
             print(te)
             return None
 
-    def get_all_events(self):
-        """
-        Get all events from the repository.
-        """
-        try:
-            return self.repo.get_all_events()
-        except ValueError as ve:
-            print(ve)
-        except TypeError as te:
-            print(te)
-
     def get_all_events_string(self):
         """
         Get all events from the repository.
@@ -101,7 +137,8 @@ class EventServices:
             events = self.repo.get_all_events()
             result = ""
             for event in events:
-                result += "Title: " + event.title + "\nDate: " + event.date + "\nDescription: " + event.description + "\n\n"
+                result += "Title: " + event.title + "\nDate: " + \
+                          event.date + "\nDescription: " + event.description + "\n\n"
             return result
         except ValueError as ve:
             print(ve)
@@ -109,7 +146,31 @@ class EventServices:
             print(te)
             return None
 
-    def update_event(self, title, new_title, new_date, new_description):
+    def check_event_exists(self, title, events_owner, sys_users):
+        """
+        Check if an event exists in the repository.
+
+        Args:
+            title (string): The name of the event to check.
+        """
+        owner_name = events_owner
+        print("Owner name", owner_name)
+        try:
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    for event in user_data["events"]:
+                        if event["title"] == title:
+                            print("Event found: [", title, "]")
+                            return True
+                    print("Event not found")
+                    return False  # Return False after checking all events
+        except ValueError as ve:
+            print(ve)
+        except TypeError as te:
+            print(te)
+
+    def update_event(self, title, new_title, new_date, new_description, event_owner, sys_users, datafile):
         """
         Update an event in the repository.
 
@@ -119,26 +180,58 @@ class EventServices:
             new_date (datetime [yyyy-mm-dd]): represents the new date of the event in the format yyyy-mm-dd.
             new_description (string): new description of the event.
         """
+        owner_name = event_owner
+        print("Owner name", owner_name)
         try:
-            target_event = self.repo.get_event(title)
-            target_event.title = new_title
-            target_event.date = new_date
-            target_event.description = new_description
-            self.repo.update_event(title, target_event)
+            #  check if the event exists first
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    for event in user_data["events"]:
+                        if event["title"] == title:
+                            print("Event found: [", title, "]")
+                            # update the event details
+                            event["title"] = new_title
+                            event["date"] = new_date
+                            event["description"] = new_description
+                            print("Event updated: [", new_title, "]")
+
+                            # Write the updated data to the database file
+                            with open(datafile, 'w') as f:
+                                json.dump(sys_users, f, indent=4)
+                                print("Data written to file")
+                                break
+
         except ValueError as ve:
             print(ve)
         except TypeError as te:
             print(te)
 
-    def delete_event(self, title):
+    def delete_event(self, title, events_owner, sys_users, datafile):
         """
         Delete an event from the repository.
 
         Args:
             title (string): The name of the event to delete.
         """
+        owner_name = events_owner
+        print("Owner name", owner_name)
         try:
-            self.repo.delete_event(title)
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    for event in user_data["events"]:
+                        if event["title"] == title:
+                            print("Event found: [", title, "]")
+                            # delete the event
+                            user_data["events"].remove(event)
+                            print("Event deleted: [", title, "]")
+
+                            # Write the updated data to the database file
+                            with open(datafile, 'w') as f:
+                                json.dump(sys_users, f, indent=4)
+                                print("Data written to file")
+                                break
         except ValueError as ve:
             print(ve)
         except TypeError as te:
@@ -164,29 +257,68 @@ class EventServices:
         except TypeError as te:
             print(te)
 
-    def create_event_json(self, filepath):
+    def create_event_json(self, filepath, event_owner, sys_users, datafile):
         """
         Method: create_event_json
         Purpose: creates an event from a json file.
         """
+        owner_name = event_owner
+        print("Owner name", owner_name)
         try:
             json_builder = python.src.io.json_builder.JsonBuilder()
-            json_builder.build_event(filepath)
-        except ValueError as ve:
-            print(ve)
-        except TypeError as te:
-            print(te)
-        finally:
-            print("Event created from json file")
+            event = json_builder.build_event(filepath)
 
-    def create_event_flat(self, filepath):
+            # Iterate over the items (key, value pairs) in sys_users
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    print("Event: ", event.title, " ",
+                          event.date, " ", event.description)
+                    # Append the event details to the corresponding user's events list
+                    convert_date = str(event.date.strftime('%Y-%m-%d'))
+                    print("Event date: ", convert_date)
+                    user_data["events"].append(
+                        {"title": event.title, "date": convert_date, "description": event.description})
+                    print("Event added to user list")
+
+                    # Write the updated data to the database file
+                    with open(datafile, 'w') as f:
+                        json.dump(sys_users, f, indent=4)
+                        print("Data written to file")
+                        break  # Stop iterating once the user is found and event is added
+        except FileNotFoundError as fnfe:
+            print(fnfe)
+        except json.JSONDecodeError as jde:
+            print(jde)
+
+    def create_event_flat(self, filepath, event_owner, sys_users, datafile):
         """
         Method: create_event_flat
         Purpose: creates an event from a flat file.
         """
         try:
             flat_builder = python.src.io.flat_builder.FlatBuilder()
-            flat_builder.build_event(filepath)
+            event = flat_builder.build_event(filepath)
+            owner_name = event_owner
+            print("Owner name", owner_name)
+            # Iterate over the items (key, value pairs) in sys_users
+            for username, user_data in sys_users.items():
+                if username == owner_name:
+                    print("User found: [", username, "]")
+                    print("Event: ", event.title, " ",
+                          event.date, " ", event.description)
+                    # Append the event details to the corresponding user's events list
+                    convert_date = str(event.date.strftime('%Y-%m-%d'))
+                    print("Event date: ", convert_date)
+                    user_data["events"].append(
+                        {"title": event.title, "date": convert_date, "description": event.description})
+                    print("Event added to user list")
+
+                    # Write the updated data to the database file
+                    with open(datafile, 'w') as f:
+                        json.dump(sys_users, f, indent=4)
+                        print("Data written to file")
+                        break  # Stop iterating once the user is found and event is added
         except ValueError as ve:
             print(ve)
         except TypeError as te:
