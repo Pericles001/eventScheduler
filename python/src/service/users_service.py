@@ -4,10 +4,15 @@ File: users_service.py
 This file defines the UsersService class, which provides methods for
 managing users.
 """
+import hashlib
+import json
 
 import python.src.model.user as user
 from python.src.repository.repository import UserRepository
-from python.src.io.user_save import SaveUser
+from python.src.io.user_save import SaveUser, load_users
+import python.src.utils.utils as utils
+
+daily_logger = utils.create_log_file_if_not_exists()
 
 
 class UserService:
@@ -25,38 +30,46 @@ class UserService:
         Args:
             user_data (dict): A dictionary containing the user's data.
         """
-        user_username = user_data["username"]
-        user_password = user_data["password"]
-        user_email = user_data["email"]
-        user_full_name = user_data["full_name"]
-        user_status = user_data["status"]
-        # Ensure correct order of arguments passed to the User constructor
-        new_user = user.User(user_username, user_password, user_email, user_full_name, user_status)
-        self.user_repository.add_user(new_user)
-        details_saver = SaveUser()
-        details_saver.save_user(new_user)
+        try:
+            user_username = user_data["username"]
+            user_password = user_data["password"]
+            user_email = user_data["email"]
+            user_full_name = user_data["full_name"]
+            user_status = user_data["status"]
+            user_events = user_data["events"]
+            new_user = user.User(user_username, user_password, user_email, user_full_name, user_status, user_events)
+            # Create an instance of SaveUser
+            user_saver = SaveUser()
+            # Call save_user method on the instance
+            user_saver.save_user(new_user)
+            print("User created successfully!")
+        except Exception as e:
+            print("Error creating user:", e)
 
     def load_users(self):
         """
         Load the users from the file.
         """
         details_loader = SaveUser()
-        details_loader.load_users()
-
-    def get_user(self, username):
-        """
-        Get a user from the repository.
-
-        Args:
-            username (string): The name of the user to get.
-        :returnurns:
-            user.User: The user with the given username.
-        """
         try:
-            target_user = self.user_repository.get_user(username)
-            return target_user
+            users = details_loader.load_users()
+            return users
         except Exception as e:
-            print("Error getting user:", e)
+            print("Error loading user details:", e)
+            return {}
+
+    def get_user(self, old_users, username):
+        """
+        Get a user from the file database.
+        :param old_users: Dictionary containing user data.
+        :param username: Username of the user to get.
+        :return: User object if found, None otherwise.
+        """
+        if username in old_users:
+            user_data = old_users[username]
+            return user.User(user_data["username"], user_data["password"], user_data["email"],
+                             user_data["full_name"], user_data["status"], user_data["events"])
+        else:
             return None
 
     def get_all_users(self):
@@ -94,59 +107,39 @@ class UserService:
         else:
             return "Inactive"
 
-    def save_user_details(self, user_data):
-        """
-        Save a user's details to the db file
-        :param user_data: A dictionary containing user details.
-        :return: True if the user details are saved successfully, False otherwise.
-        """
-        details_saver = SaveUser()
-        username = user_data.get("username")  # Get the username from user_data
-        target_user = self.user_repository.get_user(username)
-        try:
-            if target_user is not None:  # Check if target_user exists
-                details_saver.save_user(target_user)
-                print("User details saved successfully!")
-                return True
-            else:
-                print("Error: User not found.")
-                return False
-        except Exception as e:
-            print("Error saving user details:", e)
-            return False
+    @staticmethod
+    def update_user_details(user_data):
+        """Update user details in the users.json file.
 
-    def delete_user(self, username):
+        Args:
+            user_data (list): List of dictionaries containing user data.
+
+        Returns:
+            None
         """
-        Delete a user from the repository.
+        return None
+
+    def update_user_status(self, users, username, user_data):
+        """
+        Update a user in the file database
+        :param users:
         :param username:
+        :param user_data:
         :return:
         """
-        self.user_repository.delete_user(username)
-
-    # def login_user(self, user_data):
-    #     """
-    #     Log in a user.
-    #     Use the user function login from class User
-    #     :param user_data:
-    #     :return:
-    #     """
-    #     username = user_data["username"]
-    #     password = user_data["password"]
-    #     target_user = SaveUser.get_user(username)
-    #     print(target_user)
-
-    # def login_user(self, user_data):
-    #     """
-    #     Log in a user.
-    #     Use the user function login from class User
-    #     :param user_data:
-    #     :return:
-    #     """
-    #     username = user_data["username"]
-    #     password = user_data["password"]
-    #     # Fetch the user from the repository using UserService
-    #     target_user = SaveUser.get_user(username)
-    #     print(target_user)
+        # Create a new list to store the updated user data
+        updated_users = []
+        # Iterate through the users
+        for user in users:
+            # Check if the user is the one to be updated
+            if user["username"] == username:
+                # Update the user data
+                user.update(user_data)
+            # Add the user to the updated list
+            updated_users.append(user)
+        # Write the updated user data to the file
+        with open("data/out/users.json", "w") as f:
+            json.dump(updated_users, f, indent=4)
 
     def login_user(self, user_data):
         """
@@ -154,15 +147,37 @@ class UserService:
 
         Args:
             user_data (dict): A dictionary containing the user's data.
+
+        Returns:
+            User: The logged-in user object if successful, None otherwise.
         """
         username = user_data["username"]
         password = user_data["password"]
-        # Fetch the user from the repository using UserService
-        target_user = self.get_user(username)  # Use the UserService method to get the user
-        if target_user is not None:
-            if target_user.password == password:  # Check if passwords match
+
+        # Load user data from file
+        users_data = load_users()
+        print(users_data)  # Debugging line to check loaded user data
+
+        # Check if user exists
+        if username in users_data:
+            target_user = users_data[username]
+            print(target_user)  # Debugging line to check target user data
+
+            stored_password = target_user["password"]
+            # Encrypt the entered password
+            encrypted_password = hashlib.sha256(password.encode()).hexdigest()
+
+            if stored_password == encrypted_password:
+                # Update user status to online (status = 1)
+                target_user["status"] = 1
+
+                # Update user data in file
+                with open("data/out/users.json", "w") as f:
+                    json.dump(list(users_data.values()), f, indent=4)
+
                 print("User logged in successfully!")
-                return target_user  # Return the logged-in user
+                return user.User(target_user["username"], target_user["password"], target_user["email"],
+                                 target_user["full_name"], target_user["status"], target_user["events"])
             else:
                 print("Invalid password!")
                 return None
@@ -170,17 +185,31 @@ class UserService:
             print("User not found!")
             return None
 
-    def logout_user(self, username):
+    def logout_user(self, old_users, username):
         """
         Log out a user.
-        Use the user function logout from class User
-        :param username:
-        :return:
+        :param old_users: Dictionary containing user data.
+        :param username: Username of the user to log out.
+        :return: Message indicating whether the user was successfully logged out or not.
         """
-        target_user = self.user_repository.get_user(username)
-        if target_user is not None:
-            target_user.logout()
-            SaveUser.update_user_details(target_user)
-            print("User logged out successfully!")
+        print("Users in system: ", old_users)
+        if username in old_users:
+            # Set the user's status to offline (status = 0)
+            print("Logging out user: ", username)  # Debugging line to check username
+            print("Old user status: ", old_users[username]["status"])  # Debugging line to check user status
+            print("New user status: ", old_users[username]["status"])  # Debugging line to check user status
+            old_users[username]["status"] = 0
+
+            # Write the updated user data back to the file
+            file_path = "data/out/users.json"
+            try:
+                with open(file_path, "w") as f:
+                    old_users_list = []
+                    for key, value in old_users.items():
+                        old_users_list.append(value)
+                    json.dump(old_users_list, f, indent=4)
+                return "User logged out successfully!"
+            except Exception as e:
+                return f"Error updating user details: {e}"
         else:
-            print("User not found!")
+            return "User not found!"
