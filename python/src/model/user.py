@@ -12,7 +12,7 @@ class User:
     Purpose: represents the user object of the system
     """
 
-    def __init__(self, username, password, email, full_name, status):
+    def __init__(self, username, password, email, full_name, status, events=None):
         """
         Initialize a new user.
 
@@ -22,12 +22,14 @@ class User:
             email (str): The user's email address.
             first_name (str): The user's first name.
             last_name (str): The user's last name.
+            events (list): The user's events.
         """
         self.username = username
         self.password = password
         self.email = email
         self.full_name = full_name
         self.status = status
+        self.events = events
 
     # Getters and setters for the user's attributes
 
@@ -111,12 +113,33 @@ class User:
         """
         self.__status = value
 
+
+    @property
+    def events(self):
+        """
+        Get/set the events of the user
+        :return: current events
+        """
+        return self.__events
+
+    @events.setter
+    def events(self, value):
+        """
+        Set the events of the user
+        :param value: the new events
+        """
+        self.__events = value
+
     def print_user(self):
         """
         Print the user's information
         """
         print(
-            "Username: " + self.username + "\nPassword: " + self.password + "\nEmail: " + self.email + "\nFull Name: " + self.full_name)
+            "Username: " + self.username + "\nPassword: " + self.password + "\nEmail: " + self.email + "\nFull Name: "
+            + self.full_name + "\nStatus: " + str(self.status) + "\nEvents: " + str(self.events) + "\n"
+        )
+
+    # Magic methods
 
     def __str__(self):
         """
@@ -139,18 +162,6 @@ class User:
         self.password = hashlib.sha256(self.password.encode()).hexdigest()
         return self.password
 
-    # def login(self):
-    #     """
-    #     Login the user.
-    #     :return: True if the user is authenticated, False otherwise, using the AuthUser class
-    #     """
-    #     user_auth = auth_user.AuthUser(self.username, self.password)
-    #     authenticated = user_auth.authenticate()
-    #     if authenticated:
-    #         self.status = 1
-    #     else:
-    #         self.status = 0
-    #     return authenticated
 
     def logout(self):
         """

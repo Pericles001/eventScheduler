@@ -3,39 +3,44 @@ File: user_save.py
 Class: SaveUser - contains the methods for saving and retrieving user data.
 
 """
+import json
 import os
 
 
 def load_users():
     """
-    Load the users from the file.
+    Load the users from the users.json file.
 
     Returns:
-        None
+        dict: A dictionary containing user data.
     """
     users = {}
+    file_path = "data/out/users.json"
     try:
-        file_path = "data/out/users.txt"
-        with open(file_path, "r") as in_file:
-            # Check if the file is empty
+        with open(file_path, "r") as f:
             if os.stat(file_path).st_size == 0:
-                print("User details file is empty.")
-                return
-
-            user_id = 0  # Unique identifier for each user
-            for line in in_file:
-                user_data = line.strip().split(",")  # Strip to remove trailing newline
-                # Check if the user data is not empty
-                if user_data:
-                    # Save all the user data in a dictionary with unique identifier as key
-                    users[user_id] = user_data
-                    user_id += 1  # Increment the unique identifier for the next user
+                return {}
+            users_data = json.load(f)
+            if isinstance(users_data, list):
+                for user_data in users_data:
+                    username = user_data["username"]
+                    users[username] = user_data
+            elif isinstance(users_data, dict):
+                # convert the dictionary to a list of dictionaries
+                users = users_data
+                for user in users:
+                    users[user] = users_data[user]
+            else:
+                print("Unexpected format in users.json:", type(users_data))
         print("User details loaded successfully!")
+        print(users)
+        return users
+    except FileNotFoundError:
+        print("User details file not found.")
+        return {}
     except Exception as e:
         print("Error loading user details:", e)
-    finally:
-        in_file.close()
-        return users
+        return {}
 
 
 class SaveUser:
@@ -60,17 +65,38 @@ class SaveUser:
         Returns:
             None
         """
-        file_path = "data/out/users.txt"
+        file_path = "data/out/users.json"
         try:
             # Check if the directory exists, create it if not
             directory = os.path.dirname(file_path)
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
+            # Load existing user data
+            if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
+                with open(file_path, "r") as f:
+                    users_data = json.load(f)
+            else:
+                users_data = []
+
+            # Convert user object to dictionary
+            user_dict = {
+                "username": user.username,
+                "password": user.encrypt_password(),
+                "email": user.email,
+                "full_name": user.full_name,
+                "status": user.status,
+                "events": [{"title": event.title, "date": event.date, "description": event.description}
+                           for event in user.events]
+            }
+
+            # Append user data to existing data
+            users_data.append(user_dict)
+
             # Write user information to the file
-            with open(file_path, "a") as out_file:
-                out_file.write(user.username + "," + user.encrypt_password() + "," + user.email + ","
-                               + user.full_name + "," + str(user.status) + "\n")
+            with open(file_path, "w") as f:
+                json.dump(users_data, f, indent=4)
+
             print("User details saved successfully!")
         except Exception as e:
             print("Error saving user details:", e)
@@ -88,24 +114,43 @@ class SaveUser:
                 return user_data
         return None
 
-    def update_user_details(self, user):
+    @staticmethod
+    def update_user_details(user_data):
         """
-        Update a user's details in the file.
-        :param user:
-        :return:
+        Update user details in the users.json file.
+
+        Args:
+            user_data (dict): Dictionary containing user data.
+
+        Returns:
+            None
         """
-        in_file = open("../../data/out/users.txt", "r")
-        out_file = open("../../data/out/users.txt", "w")
-        for line in in_file:
-            user_data = line.split(",")
-            if user_data[0] == user.username:
-                out_file.write(
-                    user.username + "," + user.encrypt_password() + "," + user.email + "," + user.full_name + ","
-                    + user.status + "\n")
-            else:
-                out_file.write(line)
-        in_file.close()
-        out_file.close()
+        file_path = "data/out/users.json"
+        try:
+            # Open the users.json file for reading
+            with open(file_path, "r") as file:
+                existing_data = json.load(file)
+
+            # Update existing user data or append new user data
+            updated_data = existing_data.copy()
+            for user in user_data:
+                username = user["username"]
+                # Find the index of the user in the existing data
+                user_index = next((index for index, u in enumerate(updated_data) if u["username"] == username), None)
+                if user_index is not None:
+                    # Update user data if found
+                    updated_data[user_index] = user
+                else:
+                    # Append user data if not found
+                    updated_data.append(user)
+
+            # Write the updated user data to the file
+            with open(file_path, "w") as file:
+                json.dump(updated_data, file, indent=4)
+
+            print("User details updated successfully!")
+        except Exception as e:
+            print("Error updating user details:", e)
 
     def load_users(self):
         return load_users()
