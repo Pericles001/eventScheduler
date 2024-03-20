@@ -378,6 +378,22 @@ The module contains utility functions that are used across the project.
 
 ### Design Patterns
 
+The development stage of the project has required the use of different design patterns to ensure the project 
+requirements are met. The design patterns used in the project are :
+
+*Factory pattern* : In practice, a super class has attributes, that subclasses inherit and override so that they can be
+called later depending on the requirement.
+
+
+- Example: exception handler
+
+![Factory pattern](resources/screenshots/1_exception_handler.png)
+
+- Example: exception handler subclass - bad datetype
+
+![Factory pattern](resources/screenshots/2_exception_handler_subclass.png)
+
+
 ### Diagrams
 
 #### Use Case Diagram
@@ -389,19 +405,65 @@ The module contains utility functions that are used across the project.
 
 ## Technologies
 
+The project is built using the following technologies:
+
 ### Language
+
+- Python 3.11
 
 ### Libraries
 
+- json
+- sys
+- os
+- datetime
+- hashlib
+
 ### Frameworks
+
+- No frameworks used
 
 ## How to run the project
 
 ### Prerequisites
 
+The prerequisites for using the system are :
+
+- Python 3.7 or higher.
+- Git installed on local machine.
+- Usage of linux operating system is recommended.
+- In case of windows, the usage of git bash is recommended.
+- If pycharm IDE is available on the local machine, it is recommended to use it.
+
 ### Installation
 
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Pericles001/eventScheduler.git
+```
+
+
 ### Running
+
+The steps to follow in order to run the project : 
+
+
+1. Navigate to the project folder:
+
+```bash
+cd eventScheduler
+```
+
+2. Run the main.py file:
+
+```bash
+python main.py
+```
+
+_Note_ : Depending on your system, you might need to use `python3` instead of `python`.
+
+
 
 ## Authors
 
