@@ -113,7 +113,6 @@ class User:
         """
         self.__status = value
 
-
     @property
     def events(self):
         """
@@ -161,7 +160,6 @@ class User:
         """
         self.password = hashlib.sha256(self.password.encode()).hexdigest()
         return self.password
-
 
     def logout(self):
         """
