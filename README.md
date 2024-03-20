@@ -54,7 +54,6 @@ _User_ : a user is defined by a username, a password, an email, a fullname, a st
   <img width="400" height="800" src="resources/diagrams/user_authentication_flow.drawio.png">
 </p>
 
-
 - The system security process is handled with the use of sha256 hashing algorithm.
 - User's password is hashed before being stored in the database.
 
@@ -72,6 +71,9 @@ _User_ : a user is defined by a username, a password, an email, a fullname, a st
 ## Project Structure
 
 ### Architecture
+
+The project architecture uses a folder structure which can be schematized as follow:
+
 
 ### Design Patterns
 
