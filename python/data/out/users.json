@@ -1,29 +1,29 @@
 [
-    {
-        "username": "test23",
-        "password": "4e758d4760a6cffc347cdb45f0966d20f481bad806731c4c0e44f21cf9d90bb5",
-        "email": "test23@mail",
-        "full_name": "test23",
-        "status": 0,
-        "events": [
-            {
-                "title": "Summer BBQ",
-                "date": "2024-07-04",
-                "description": "Grilled burgers, hot dogs, and fireworks."
-            },
-            {
-                "title": "test",
-                "date": "2024-03-20",
-                "description": "r"
-            }
-        ]
-    },
-    {
-        "username": "romerik",
-        "password": "5a730e13ee1f400ffc5492ffccc579baa7ba9aa525604ff5776f4332e566fdae",
-        "email": "romerik@something.com",
-        "full_name": "Romerik Lokossou",
-        "status": 1,
-        "events": []
-    }
+  {
+    "username": "test23",
+    "password": "4e758d4760a6cffc347cdb45f0966d20f481bad806731c4c0e44f21cf9d90bb5",
+    "email": "test23@mail",
+    "full_name": "test23",
+    "status": 0,
+    "events": [
+      {
+        "title": "Summer BBQ",
+        "date": "2024-07-04",
+        "description": "Grilled burgers, hot dogs, and fireworks."
+      },
+      {
+        "title": "test",
+        "date": "2024-03-20",
+        "description": "r"
+      }
+    ]
+  },
+  {
+    "username": "romerik",
+    "password": "5a730e13ee1f400ffc5492ffccc579baa7ba9aa525604ff5776f4332e566fdae",
+    "email": "romerik@something.com",
+    "full_name": "Romerik Lokossou",
+    "status": 1,
+    "events": []
+  }
 ]

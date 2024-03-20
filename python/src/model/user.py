@@ -3,6 +3,7 @@ File: user.py
 Class: User - contains the user object
 """
 import hashlib
+
 import python.src.auth.auth_user as auth_user
 
 

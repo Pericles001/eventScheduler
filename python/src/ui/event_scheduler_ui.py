@@ -3,10 +3,8 @@ File: event_scheduler_ui.py
 Class: EventSchedulerUI
 Purpose: contains the user interface for the event scheduler application.
 """
-import sys
-import getpass
-import python.src.service.users_service as user_service
 import python.src.service.event_services as event_service
+import python.src.service.users_service as user_service
 import python.src.utils.utils as utils
 
 daily_log_file = utils.create_log_file_if_not_exists()

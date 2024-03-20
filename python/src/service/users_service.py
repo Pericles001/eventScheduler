@@ -8,9 +8,9 @@ import hashlib
 import json
 
 import python.src.model.user as user
-from python.src.repository.repository import UserRepository
-from python.src.io.user_save import SaveUser, load_users
 import python.src.utils.utils as utils
+from python.src.io.user_save import SaveUser, load_users
+from python.src.repository.repository import UserRepository
 
 daily_logger = utils.create_log_file_if_not_exists()
 

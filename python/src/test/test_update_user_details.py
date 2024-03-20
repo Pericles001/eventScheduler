@@ -4,6 +4,7 @@ Description: Unit test for updating user details.
 """
 
 import unittest
+
 from python.src.io.user_save import SaveUser
 from python.src.model.user import User
 from python.src.service.users_service import UserService

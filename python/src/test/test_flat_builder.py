@@ -4,7 +4,7 @@ Class: TestFlatBuilder - contains the tests for the flat builder.
 """
 
 import unittest
-from datetime import datetime, date
+from datetime import date
 
 from python.src.io.flat_builder import FlatBuilder
 

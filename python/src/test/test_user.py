@@ -4,8 +4,8 @@ Description: This file contains unit tests for the User class.
 """
 
 import unittest
+
 import python.src.model.user
-import python.src.repository.repository as repo
 
 
 class TestUser(unittest.TestCase):
