@@ -52,9 +52,10 @@ class EventServices:
                     print("Event added to events list")
 
                     with open(datafile, 'w') as f:
-                        json.dump(sys_users, f, indent=4)
+                        #     put the content as a list of dictionaries
+                        json.dump(list(sys_users.values()), f, indent=4)
                         print("Data saved to file")
-                    break
+                        break
         except ValueError as ve:
             print(ve)
         except TypeError as te:
