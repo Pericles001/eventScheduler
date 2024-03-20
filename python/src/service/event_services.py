@@ -34,13 +34,11 @@ class EventServices:
         :return:
         """
         owner_name = event_owner
-        print("Owner name", owner_name)
         try:
             new_event = event.Event(title, date, description)
             self.repo.add_event(new_event)
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     print("Event: ", new_event.title, " ",
                           new_event.date, " ", new_event.description)
                     # Append the event details to the corresponding user's events list
@@ -48,12 +46,11 @@ class EventServices:
                     print("Event date: ", convert_date)
                     user_data["events"].append(
                         {"title": new_event.title, "date": convert_date, "description": new_event.description})
-                    print("Event added to user list")
+                    print("Event added to events list")
 
                     with open(datafile, 'w') as f:
                         json.dump(sys_users, f, indent=4)
-                        print("Data written to file")
-
+                        print("Data saved to file")
                     break
         except ValueError as ve:
             print(ve)
@@ -65,11 +62,9 @@ class EventServices:
         Get all events from the repository.
         """
         owner_name = events_owner
-        print("Owner name", owner_name)
         try:
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     #             display events in a table like format
                     print("Events: ", user_data["events"], "\n")
                     for event in user_data["events"]:
@@ -91,12 +86,10 @@ class EventServices:
             title (string): The name of the event to get.
         """
         owner_name = events_owner
-        print("Owner name", owner_name)
 
         try:
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     for event in user_data["events"]:
                         if event["title"] == title:
                             # print the event details
@@ -154,11 +147,9 @@ class EventServices:
             title (string): The name of the event to check.
         """
         owner_name = events_owner
-        print("Owner name", owner_name)
         try:
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     for event in user_data["events"]:
                         if event["title"] == title:
                             print("Event found: [", title, "]")
@@ -186,7 +177,6 @@ class EventServices:
             #  check if the event exists first
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     for event in user_data["events"]:
                         if event["title"] == title:
                             print("Event found: [", title, "]")
@@ -215,11 +205,9 @@ class EventServices:
             title (string): The name of the event to delete.
         """
         owner_name = events_owner
-        print("Owner name", owner_name)
         try:
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     for event in user_data["events"]:
                         if event["title"] == title:
                             print("Event found: [", title, "]")
@@ -263,7 +251,6 @@ class EventServices:
         Purpose: creates an event from a json file.
         """
         owner_name = event_owner
-        print("Owner name", owner_name)
         try:
             json_builder = python.src.io.json_builder.JsonBuilder()
             event = json_builder.build_event(filepath)
@@ -271,7 +258,6 @@ class EventServices:
             # Iterate over the items (key, value pairs) in sys_users
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     print("Event: ", event.title, " ",
                           event.date, " ", event.description)
                     # Append the event details to the corresponding user's events list
@@ -279,12 +265,12 @@ class EventServices:
                     print("Event date: ", convert_date)
                     user_data["events"].append(
                         {"title": event.title, "date": convert_date, "description": event.description})
-                    print("Event added to user list")
+                    print("Event added to events list")
 
                     # Write the updated data to the database file
                     with open(datafile, 'w') as f:
                         json.dump(sys_users, f, indent=4)
-                        print("Data written to file")
+                        print("Data saved to file")
                         break  # Stop iterating once the user is found and event is added
         except FileNotFoundError as fnfe:
             print(fnfe)
@@ -300,11 +286,9 @@ class EventServices:
             flat_builder = python.src.io.flat_builder.FlatBuilder()
             event = flat_builder.build_event(filepath)
             owner_name = event_owner
-            print("Owner name", owner_name)
             # Iterate over the items (key, value pairs) in sys_users
             for username, user_data in sys_users.items():
                 if username == owner_name:
-                    print("User found: [", username, "]")
                     print("Event: ", event.title, " ",
                           event.date, " ", event.description)
                     # Append the event details to the corresponding user's events list
