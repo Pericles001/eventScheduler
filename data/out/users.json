@@ -1,35 +1,11 @@
 [
     {
-        "username": "test23",
-        "password": "4e758d4760a6cffc347cdb45f0966d20f481bad806731c4c0e44f21cf9d90bb5",
-        "email": "test23@mail",
-        "full_name": "test23",
+        "username": "1",
+        "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "email": "1",
+        "full_name": "1",
         "status": 0,
         "events": [
-            {
-                "title": "Summer BBQ",
-                "date": "2024-07-04",
-                "description": "Grilled burgers, hot dogs, and fireworks."
-            },
-            {
-                "title": "test",
-                "date": "2024-03-20",
-                "description": "r"
-            }
-        ]
-    },
-    {
-        "username": "rom",
-        "password": "1a0806c20104d3461d8ede70362f16734dbd6a17db24005d1841a7387c9b2405",
-        "email": "rom",
-        "full_name": "rom",
-        "status": 0,
-        "events": [
-            {
-                "title": "new",
-                "date": "2024-10-05",
-                "description": "rien de neuf"
-            },
             {
                 "title": "The Shawshank Redemption",
                 "date": "2024-04-01",
@@ -39,72 +15,7 @@
                 "title": "The Godfather",
                 "date": "2024-04-01",
                 "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son."
-            },
-            {
-                "title": "The Dark Knight",
-                "date": "2024-04-01",
-                "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
-            },
-            {
-                "title": "12 Angry",
-                "date": "2024-04-01",
-                "description": "A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence."
-            },
-            {
-                "title": "Halloween Party",
-                "date": "2024-10-31",
-                "description": "Costume contest, haunted house, and trick-or-treating."
-            },
-            {
-                "title": "The Shawshank Redemption",
-                "date": "2024-04-01",
-                "description": "Two imprisoned people trying to survive in a prison."
-            },
-            {
-                "title": "Halloween Party",
-                "date": "2024-10-31",
-                "description": "Costume contest, haunted house, and trick-or-treating."
             }
         ]
-    },
-    {
-        "username": "bright",
-        "password": "3c056a477221a5ba2035cdf648c6167622bd8ff129783b3566b58e47229d2c6e",
-        "email": "br@gmail.com",
-        "full_name": "br",
-        "status": 1,
-        "events": []
-    },
-    {
-        "username": "Minard",
-        "password": "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35",
-        "email": "we@work.com",
-        "full_name": "Nwankwo m c",
-        "status": 1,
-        "events": []
-    },
-    {
-        "username": "test_again",
-        "password": "916600ddec1bff727daa7ea9f874928afff3330141e7a6608ccd31a859603d40",
-        "email": "test_again",
-        "full_name": "Test_again",
-        "status": 1,
-        "events": []
-    },
-    {
-        "username": "test",
-        "password": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-        "email": "test",
-        "full_name": "test",
-        "status": 1,
-        "events": []
-    },
-    {
-        "username": "newman",
-        "password": "5380b4faddb75750e020755413bd44fa783bd0a7c7c6bb09ee03c6944bbe881b",
-        "email": "newman",
-        "full_name": "newman",
-        "status": 0,
-        "events": []
     }
 ]
