@@ -61,6 +61,8 @@ def register_user():
                     break
                 user_service.UserService().create_user(user_data)
                 utils.write_to_daily_log_file("User registration function: User created successfully ", daily_log_file)
+                print("User created successfully! Login to continue.")
+                auth_menu()
                 break
             except Exception as e:
                 print("Error: ", e)
