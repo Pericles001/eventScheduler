@@ -6,6 +6,8 @@ Class: SaveUser - contains the methods for saving and retrieving user data.
 import json
 import os
 
+import python.src.utils.utils as utils
+
 
 def load_users():
     """
@@ -16,6 +18,7 @@ def load_users():
     """
     users = {}
     file_path = "data/out/users.json"
+    log_file = utils.create_log_file_if_not_exists()
     try:
         with open(file_path, "r") as f:
             if os.stat(file_path).st_size == 0:
@@ -32,8 +35,7 @@ def load_users():
                     users[user] = users_data[user]
             else:
                 print("Unexpected format in users.json:", type(users_data))
-        print("User details loaded successfully!")
-        print(users)
+        utils.write_to_daily_log_file("User details loaded successfully!" + "\n", log_file)
         return users
     except FileNotFoundError:
         print("User details file not found.")

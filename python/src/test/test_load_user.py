@@ -6,7 +6,6 @@ Class: TestLoadUser - contains the tests for loading user data.
 import unittest
 
 from python.src.io.user_save import SaveUser
-from python.src.model.user import User
 
 
 class TestLoadUser(unittest.TestCase):

@@ -3,6 +3,7 @@ File: user.py
 Class: User - contains the user object
 """
 import hashlib
+
 import python.src.auth.auth_user as auth_user
 
 
@@ -113,7 +114,6 @@ class User:
         """
         self.__status = value
 
-
     @property
     def events(self):
         """
@@ -161,7 +161,6 @@ class User:
         """
         self.password = hashlib.sha256(self.password.encode()).hexdigest()
         return self.password
-
 
     def logout(self):
         """

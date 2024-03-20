@@ -82,7 +82,11 @@ class Event:
                     raise ValueError("Date cannot be in the past")
                 self.__date = value
             elif isinstance(value, str):
-                parsed_date = datetime.datetime.strptime(value, "%Y-%m-%d").date()
+                try:
+                    parsed_date = datetime.datetime.strptime(value, "%Y-%m-%d").date()
+                except ValueError:
+                    # Try another format if the first one fails
+                    parsed_date = datetime.datetime.strptime(value, "%d/%m/%Y").date()
                 if parsed_date < current_date:
                     raise ValueError("Date cannot be in the past")
                 self.__date = parsed_date
@@ -90,10 +94,10 @@ class Event:
                 raise TypeError("Date must be a datetime.date object or a string in format 'yyyy-mm-dd'")
         except ValueError as ve:
             pdeh.PastDateExceptionHandler.handle_exception(ve, value)
-            self.__date = value
+            self.__date = current_date  # Assign current date as default
         except TypeError as te:
             bdteh.BadDateTypeExceptionHandler.handle_exception(te, value)
-            self.__date = value
+            self.__date = current_date  # Assign current date as default
 
     @property
     def description(self):

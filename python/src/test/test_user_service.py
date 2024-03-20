@@ -4,9 +4,9 @@ Description: Test the user service.
 """
 
 import unittest
+
 import python.src.model.user
 import python.src.service.users_service as services
-import python.src.repository.repository as repo
 
 
 class TestUserService(unittest.TestCase):

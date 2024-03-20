@@ -5,6 +5,7 @@ Purpose: contains the tests for the json builder.
 
 import unittest
 from datetime import datetime
+
 from python.src.io.json_builder import JsonBuilder
 
 
