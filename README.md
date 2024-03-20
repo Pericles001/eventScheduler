@@ -209,7 +209,93 @@ Each module is defined by a set of classes and functions that are used to implem
 
 #### Auth
 
+The module contains the user authentication functions.
+
+- `auth_user.py` : contains the user authentication functions.
+
+        AuthUser [ class ] : class that contains the user authentication object and methods.
+
+        encrypt_password(password) [ method ] : encrypts a password using the sha256 hashing algorithm. returns the encrypted password.
+        - takes the password as input.
+        - encrypts the password using the sha256 hashing algorithm.
+        - returns the encrypted password. 
+
+
+- `__init__.py` : the module initializer.
+
 #### Exception
+
+The module handles the exceptions that can be raised in the project. 
+
+- `exception_handler.py` : contains the exception handler class.
+
+        ExceptionHandler [ class ] : class that contains the exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles an exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+- `bad_datetype_exception_handler.py` : contains the bad datetype exception handler class.
+
+        BadDatetypeExceptionHandler [ class ] : class that contains the bad datetype exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles a bad datetype exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.'
+
+- `bad_titletype_exception_handler.py` : contains the bad titletype exception handler class.
+
+        BadTitletypeExceptionHandler [ class ] : class that contains the bad titletype exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles a bad titletype exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+- `bad_type_description_exception_handler.py` : contains the bad type description exception handler class.
+    
+        BadTypeDescriptionExceptionHandler [ class ] : class that contains the bad type description exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles a bad type description exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+
+-  `empty_date_exception_handler.py` : contains the empty date exception handler class.
+
+        EmptyDateExceptionHandler [ class ] : class that contains the empty date exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles an empty date exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+
+- `empty_description_exception_handler.py` : contains the empty description exception handler class.
+
+        EmptyDescriptionExceptionHandler [ class ] : class that contains the empty description exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles an empty description exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+
+- `empty_title_exception_handler.py` : contains the empty title exception handler class.
+
+        EmptyTitleExceptionHandler [ class ] : class that contains the empty title exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles an empty title exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+- `past_date_exception_handler.py` : contains the past date exception handler class.
+
+
+        PastDateExceptionHandler [ class ] : class that contains the past date exception handler object and methods.
+
+        handle_exception(exception) [ method ] : handles a past date exception. does not return anything.
+        - takes the exception as input.
+        - handles the exception by printing the exception message.
+
+- `__init__.py` : the module initializer.
 
 #### IO
 
