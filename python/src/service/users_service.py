@@ -78,7 +78,7 @@ class UserService:
         """
         return self.user_repository.get_all_users()
 
-    def update_user(self, username, user_data):
+    def update_user(self, username, user_data, sys_users, datafile_path):
         """
         Update a user in the repository.
 
@@ -86,14 +86,17 @@ class UserService:
             username (string): The name of the user to update.
             user_data (dict): A dictionary containing the user's data.
         """
-
-        user_username = user_data["username"]
-        user_password = user_data["password"]
-        user_email = user_data["email"]
-        user_full_name = user_data["full_name"]
-        user_status = user_data["status"]
-        user_to_update = user.User(user_username, user_password, user_email, user_full_name, user_status)
-        self.user_repository.update_user(username, user_to_update)
+        try:
+            if username in sys_users:
+                sys_users[username] = user_data
+                with open(datafile_path, "w") as f:
+                    json.dump(list(sys_users.values()), f, indent=4)
+                print("User updated successfully!")
+            #     return the updated user
+            else:
+                print("User not found!")
+        except Exception as e:
+            print("Error updating user details:", e)
 
     def get_user_status(self, username):
         """
@@ -117,7 +120,7 @@ class UserService:
         Returns:
             None
         """
-        return None
+        return
 
     def update_user_status(self, users, username, user_data):
         """
@@ -156,13 +159,9 @@ class UserService:
 
         # Load user data from file
         users_data = load_users()
-        print(users_data)  # Debugging line to check loaded user data
-
         # Check if user exists
         if username in users_data:
             target_user = users_data[username]
-            print(target_user)  # Debugging line to check target user data
-
             stored_password = target_user["password"]
             # Encrypt the entered password
             encrypted_password = hashlib.sha256(password.encode()).hexdigest()
@@ -196,8 +195,6 @@ class UserService:
         if username in old_users:
             # Set the user's status to offline (status = 0)
             print("Logging out user: ", username)  # Debugging line to check username
-            print("Old user status: ", old_users[username]["status"])  # Debugging line to check user status
-            print("New user status: ", old_users[username]["status"])  # Debugging line to check user status
             old_users[username]["status"] = 0
 
             # Write the updated user data back to the file
@@ -213,3 +210,42 @@ class UserService:
                 return f"Error updating user details: {e}"
         else:
             return "User not found!"
+
+    def get_user_details(self, username, sys_users):
+        """
+        Get user details from the users database.
+        :param username:
+        :param sys_users:
+        :return:
+        """
+        try:
+            if username in sys_users:
+                user_details = sys_users[username]
+                print(
+                    f"Username: {user_details['username']}\nEmail: {user_details['email']}\n"
+                    f"Full Name: {user_details['full_name']}\nStatus: {user_details['status']}"
+                    f"\nEvents: {user_details['events']}")
+            else:
+                print("User not found!")
+        except Exception as e:
+            print(f"Error getting user details: {e}")
+        return None
+
+    def delete_user(self, username, sys_users, datafile):
+        """
+        Delete a user from the file database.
+        :param username:
+        :param sys_users:
+        :param datafile:
+        :return:
+        """
+        try:
+            if username in sys_users:
+                del sys_users[username]
+                with open(datafile, "w") as f:
+                    json.dump(list(sys_users.values()), f, indent=4)
+                print("User deleted successfully!")
+            else:
+                print("User not found!")
+        except Exception as e:
+            print("Error deleting user:", e)
