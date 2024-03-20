@@ -19,9 +19,7 @@ def create_log_file_if_not_exists():
         with open("logs/" + log_file_name, "w") as f:
             f.write("Log file created on " + today.strftime("%d/%m/%Y %H:%M:%S"))
             f.close()
-    print("Log file created successfully!")
     return "logs/" + log_file_name
-
 
 
 def write_to_daily_log_file(message, log_name):
@@ -37,3 +35,24 @@ def write_to_daily_log_file(message, log_name):
     with open(log_name, "a") as f:
         f.write("\n" + today.strftime("%d/%m/%Y %H:%M:%S") + " - " + message)
         f.close()
+
+
+def get_current_time():
+    """
+    Get the current time in the format "YYYY-MM-DD HH:MM:SS".
+    """
+    import datetime
+
+    now = datetime.datetime.now()
+    return now.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def encrypt_password(password):
+    """
+    Encrypt a password using the SHA-256 algorithm.
+    :param password: The password to encrypt.
+    :return: The encrypted password.
+    """
+    import hashlib
+
+    return hashlib.sha256(password.encode()).hexdigest()
