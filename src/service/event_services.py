@@ -70,12 +70,14 @@ class EventServices:
                 if username == owner_name:
                     #             display events in a table like format
                     print("Events: ", user_data["events"], "\n")
+                    # sort the user events by date in ascending order before displaying
+                    user_data["events"].sort(key=lambda x: x["date"])
+                    print("Sorted events: ", user_data["events"], "\n")
                     for event in user_data["events"]:
                         print("Title: ", event["title"])
                         print("Date: ", event["date"])
                         print("Description: ", event["description"])
                         print("\n")
-                    return user_data["events"]
         except ValueError as ve:
             print(ve)
         except TypeError as te:
