@@ -3,7 +3,8 @@ File: event_scheduler_ui.py
 Class: EventSchedulerUI
 Purpose: contains the user interface for the event scheduler application.
 """
-
+import sys
+import getpass
 import python.src.service.users_service as user_service
 import python.src.service.event_services as event_service
 import python.src.utils.utils as utils
@@ -62,6 +63,7 @@ def register_user():
         else:
             utils.write_to_daily_log_file("User registration function: Invalid choice ", daily_log_file)
             print("Invalid choice! Please try again.")
+            register_user()
 
 
 def login_user():
@@ -99,7 +101,143 @@ def login_user():
         else:
             print("Invalid choice! Please try again.")
             utils.write_to_daily_log_file("User login function: Invalid choice ", daily_log_file)
+            login_user()
     return logged_in_user
+
+
+def submenu_update_account():
+    """
+    Method: submenu_update_account
+    Purpose: displays the submenu for updating the user account.
+    :return:
+    """
+    global logged_in_user
+    global sys_users
+    user_service_instance = user_service.UserService()
+    datafile = "data/out/users.json"
+    utils.write_to_daily_log_file("Update account function: CALL ", daily_log_file)
+    print("Enter the updated user details:")
+    username = logged_in_user.username
+    new_username = input("New Username:")
+    password = input("New Password:")
+    email = input("New Email:")
+    full_name = input("New Full Name:")
+    utils.write_to_daily_log_file("Update account function: Username " + username, daily_log_file)
+    while True:
+        print("Are you sure you want to update your account?")
+        print("1. Yes")
+        print("2. No")
+        choice = input("Enter your choice: ")
+        utils.write_to_daily_log_file("Update account function: CHOICE " + choice, daily_log_file)
+        if choice == "1":
+            encrypted_password = utils.encrypt_password(password)
+            try:
+                user_data = {
+                    "username": new_username,
+                    "password": encrypted_password,
+                    "email": email,
+                    "full_name": full_name,
+                    "status": 0,
+                    "events": logged_in_user.events
+                }
+                user_service_instance.update_user(logged_in_user.username, user_data, sys_users, datafile)
+                utils.write_to_daily_log_file("Update account function: User updated successfully ", daily_log_file)
+                print("Login with your new details.")
+                auth_menu()
+                break
+            except Exception as e:
+                print("Error: ", e)
+                utils.write_to_daily_log_file("Update account function: Error " + str(e), daily_log_file)
+                main_menu()
+                break
+        elif choice == "2":
+            utils.write_to_daily_log_file("Update account function: User update cancelled ", daily_log_file)
+            main_menu()
+            break
+        else:
+            print("Invalid choice! Please try again.")
+            utils.write_to_daily_log_file("Update account function: Invalid choice ", daily_log_file)
+            submenu_update_account()
+
+
+def submenu_delete_account():
+    """
+    Method: submenu_delete_account
+    Purpose: displays the submenu for deleting the user account.
+    """
+    global logged_in_user
+    global sys_users
+    user_service_instance = user_service.UserService()
+    datafile = "data/out/users.json"
+    utils.write_to_daily_log_file("Delete account function: CALL ", daily_log_file)
+    while True:
+        print("Are you sure you want to delete your account?")
+        print("1. Yes")
+        print("2. No")
+        choice = input("Enter your choice: ")
+        utils.write_to_daily_log_file("Delete account function: CHOICE " + choice, daily_log_file)
+        if choice == "1":
+            try:
+                user_service_instance.delete_user(logged_in_user.username, sys_users, datafile)
+                utils.write_to_daily_log_file("Delete account function: User deleted successfully ", daily_log_file)
+                auth_menu()
+                break
+            except Exception as e:
+                print("Error: ", e)
+                utils.write_to_daily_log_file("Delete account function: Error " + str(e), daily_log_file)
+                auth_menu()
+                break
+
+
+def submenu_manage_account():
+    """
+    Method: submenu_manage_account
+    Purpose: displays the sub-menu for managing the user account.
+    """
+    utils.write_to_daily_log_file("Submenu manage account function: CALL ", daily_log_file)
+    global logged_in_user
+    global sys_users
+    user_service_instance = user_service.UserService()
+    print("======================================================================================================")
+    print("1. View my account details")
+    print("2. Update my account details")
+    print("3. Delete my account")
+    print("4. Return to main menu")
+    print("5. Logout")
+    print("======================================================================================================")
+    while True:
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            utils.write_to_daily_log_file("Submenu manage account function: View my account details - User" +
+                                          str(logged_in_user), daily_log_file)
+            user_service_instance.get_user_details(logged_in_user.username, sys_users)
+            return_to_main_menu()
+            break
+        elif choice == "2":
+            utils.write_to_daily_log_file("Submenu manage account function: Update my account details - User" +
+                                          str(logged_in_user), daily_log_file)
+            submenu_update_account()
+            return
+        elif choice == "3":
+            utils.write_to_daily_log_file("Submenu manage account function: Delete my account - User" +
+                                          str(logged_in_user), daily_log_file)
+            submenu_delete_account()
+            return
+        elif choice == "4":
+            utils.write_to_daily_log_file("Submenu manage account function: Return to main menu - User" +
+                                          str(logged_in_user), daily_log_file)
+            return_to_main_menu()
+            break
+        elif choice == "5":
+            utils.write_to_daily_log_file("Submenu manage account function: Logout - User" +
+                                          str(logged_in_user), daily_log_file)
+            submenu_logout()
+            break
+        else:
+            print("Invalid choice! Please try again.")
+            utils.write_to_daily_log_file("Submenu manage account function: Invalid choice - User" +
+                                          str(logged_in_user), daily_log_file)
+            submenu_manage_account()
 
 
 def main_menu():
@@ -109,13 +247,20 @@ def main_menu():
     """
     utils.write_to_daily_log_file("Main menu function: CALL ", daily_log_file)
     global logged_in_user  # To access the global variable
+    print("======================================================================================================")
+    print("Welcome back, ", logged_in_user.username, "!", "It is:", utils.get_current_time())
+    print("0. Manage Account")
     print("1. Create Event")
     print("2. View Event")
     print("3. Update Event")
     print("4. Delete Event")
     print("5. Logout")
+    print("======================================================================================================")
     while True:
         choice = input("Enter your choice: ")
+        if choice == "0":
+            utils.write_to_daily_log_file("Main menu function: Manage account ", daily_log_file)
+            submenu_manage_account()
         if choice == "1":
             utils.write_to_daily_log_file("Main menu function: Create event ", daily_log_file)
             submenu_create_event_category()
@@ -135,6 +280,7 @@ def main_menu():
         else:
             utils.write_to_daily_log_file("Main menu function: Invalid choice ", daily_log_file)
             print("Invalid choice! Please try again.")
+            main_menu()
 
 
 def return_to_main_menu():
@@ -158,6 +304,7 @@ Purpose: returns the user to the main menu.
         else:
             utils.write_to_daily_log_file("Return to main menu function: Invalid choice ", daily_log_file)
             print("Invalid choice! Please try again.")
+            return_to_main_menu()
 
 
 def auth_menu():
@@ -166,10 +313,12 @@ def auth_menu():
     Purpose: displays the authentication menu.
     """
     utils.write_to_daily_log_file("Authentication menu function: CALL ", daily_log_file)
+    print("======================================================================================================")
     print("Welcome to the Event Scheduler!")
     print("1. Login")
     print("2. Register")
     print("3. Exit")
+    print("======================================================================================================")
     while True:
         choice = input("Enter your choice: ")
         if choice == "1":
@@ -185,42 +334,48 @@ def auth_menu():
         else:
             utils.write_to_daily_log_file("Authentication menu function: Invalid choice ", daily_log_file)
             print("Invalid choice! Please try again.")
+            auth_menu()
 
 
 def submenu_create_event_category():
     """
     Method: submenu_create_event_category
-    :return:
     """
     utils.write_to_daily_log_file("Create event category function: CALL ", daily_log_file)
+    print("======================================================================================================")
     print("1. Import Event details from a file")
     print("2. Enter Event details manually")
     print("3. Return to main menu")
     print("4. Logout")
+    print("======================================================================================================")
     while True:
         choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file("Create event category function: Import event details from a file - User:" +
                                           str(logged_in_user), daily_log_file)
             submenu_create_event_file()
+            return  # Add return statement after calling submenu function
         elif choice == "2":
             utils.write_to_daily_log_file("Create event category function: Enter event details manually - User" +
                                           str(logged_in_user), daily_log_file)
             submenu_create_event_manual()
+            return  # Add return statement after calling submenu function
         elif choice == "3":
             utils.write_to_daily_log_file("Create event category function: Return to main menu - User" +
                                           str(logged_in_user), daily_log_file)
             return_to_main_menu()
+            return  # Add return statement after calling submenu function
         elif choice == "4":
             utils.write_to_daily_log_file("Create event category function: Logout - User" +
                                           str(logged_in_user), daily_log_file)
-
             submenu_logout()
             break
         else:
             utils.write_to_daily_log_file("Create event category function: Invalid choice - User" +
                                           str(logged_in_user), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_create_event_category()
+        break
 
 
 def submenu_create_event_manual():
@@ -237,9 +392,11 @@ def submenu_create_event_manual():
         utils.write_to_daily_log_file("Create event manually function: User " + str(logged_in_user) + "Details: " +
                                       str(title) + ", " + str(date) + ", "
                                       + str(description), daily_log_file)
+        print("======================================================================================================")
         print("Are you sure you want to create the event?")
         print("1. Yes")
         print("2. No")
+        print("======================================================================================================")
         choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file("Create event manually function: User " + str(logged_in_user) +
@@ -273,6 +430,7 @@ def submenu_create_event_manual():
             utils.write_to_daily_log_file("Create event manually function: User " + str(logged_in_user) +
                                           "Choice: " + str(choice), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_create_event_manual()
 
 
 def submenu_create_event_file():
@@ -281,10 +439,12 @@ def submenu_create_event_file():
     Purpose: displays the submenu for creating an event from a file.
     """
     utils.write_to_daily_log_file("Create event from file function: CALL ", daily_log_file)
+    print("======================================================================================================")
     print("1. Import the event details from a json file:")
     print("2. Import the event details from a flat file:")
     print("3. Return to main menu")
     print("4. Logout")
+    print("======================================================================================================")
     while True:
         choice = input("Enter your choice: ")
         if choice == "1":
@@ -310,6 +470,7 @@ def submenu_create_event_file():
             utils.write_to_daily_log_file("Create event from file function: Invalid choice - User" +
                                           str(logged_in_user), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_create_event_file()
 
 
 def submenu_create_event_json():
@@ -324,9 +485,13 @@ def submenu_create_event_json():
         file_name = input("Enter the file path: ")
         utils.write_to_daily_log_file("Create event from json function: File path " + str(file_name), daily_log_file)
         if file_name:
+            print(
+                "======================================================================================================")
             print("Are you sure you want to create the event?")
             print("1. Yes")
             print("2. No")
+            print(
+                "======================================================================================================")
             choice = input("Enter your choice: ")
             if choice == "1":
                 utils.write_to_daily_log_file("Create event from json function: User " + str(logged_in_user) +
@@ -351,6 +516,7 @@ def submenu_create_event_json():
                 utils.write_to_daily_log_file("Create event from json function: User " + str(logged_in_user) +
                                               "Choice: " + str(choice), daily_log_file)
                 print("Invalid choice! Please try again.")
+                submenu_create_event_json()
         else:
             utils.write_to_daily_log_file("Create event from json function: File path empty ", daily_log_file)
             print("File path cannot be empty. Please enter a valid file path.")
@@ -367,9 +533,11 @@ def submenu_create_event_flat():
     print("Enter the file path:")
     file_name = input("File path: ")
     while True:
+        print("======================================================================================================")
         print("Are you sure you want to create the event?")
         print("1. Yes")
         print("2. No")
+        print("======================================================================================================")
         choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file("Create event from flat file function: User " + str(logged_in_user) +
@@ -397,6 +565,7 @@ def submenu_create_event_flat():
             utils.write_to_daily_log_file("Create event from flat file function: User " + str(logged_in_user) +
                                           "Choice: " + str(choice), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_create_event_flat()
 
 
 def submenu_view_event():
@@ -407,11 +576,13 @@ def submenu_view_event():
     utils.write_to_daily_log_file("View event function: CALL ", daily_log_file)
     global logged_in_user
     global sys_users
+    print("======================================================================================================")
     print("How would you like to view the event?")
     print("1. View all my events")
     print("2. View a specific event")
     print("3. Return to main menu")
     print("4. Logout")
+    print("======================================================================================================")
     choice = input("Enter your choice: ")
     while True:
         utils.write_to_daily_log_file("View event function: Choice " + choice, daily_log_file)
@@ -444,6 +615,7 @@ def submenu_view_event():
             utils.write_to_daily_log_file("View event function: Invalid choice - User" +
                                           str(logged_in_user) + "Choice" + str(choice), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_view_event()
 
 
 def submenu_view_specific_event():
@@ -466,9 +638,11 @@ def submenu_view_specific_event():
         main_menu()
     while True:
         utils.write_to_daily_log_file("View specific event function: Title " + title, daily_log_file)
+        print("======================================================================================================")
         print("Are you sure you want to view the event?")
         print("1. Yes")
         print("2. No")
+        print("======================================================================================================")
         choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file("View specific event function: User " + str(logged_in_user) +
@@ -486,6 +660,7 @@ def submenu_view_specific_event():
             utils.write_to_daily_log_file("View specific event function: User " + str(logged_in_user) +
                                           "Choice " + str(choice), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_view_specific_event()
 
 
 def submenu_update_event():
@@ -508,7 +683,6 @@ def submenu_update_event():
         print("Event does not exist!")
         main_menu()
 
-
     print("Enter the updated event details:")
     title = input("New Title: ")
     date = input("New Date: (yyyy-mm-dd)")
@@ -516,10 +690,12 @@ def submenu_update_event():
 
     while True:
         utils.write_to_daily_log_file("Update event function: Title " + title + ", Date " + date +
-                                          ", Description " + description, daily_log_file)
+                                      ", Description " + description, daily_log_file)
+        print("======================================================================================================")
         print("Are you sure you want to update the event?")
         print("1. Yes")
         print("2. No")
+        print("======================================================================================================")
         choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file("Update event function: User " + str(logged_in_user) +
@@ -542,6 +718,7 @@ def submenu_update_event():
             utils.write_to_daily_log_file("Update event function: User " + str(logged_in_user) +
                                           "Choice " + str(choice), daily_log_file)
             print("Invalid choice! Please try again.")
+            submenu_update_event()
 
 
 def submenu_delete_event():
@@ -571,14 +748,13 @@ def submenu_delete_event():
         utils.write_to_daily_log_file(
             "Delete event function: Title " + title, daily_log_file
         )
+        print("======================================================================================================")
         print("Are you sure you want to delete the event?")
         print("1. Yes")
         print("2. No")
+        print("======================================================================================================")
         choice = input("Enter your choice: ")
         if choice == "1":
-            utils.write_to_daily_log_file(
-                    "Delete event function: Choice " + choice, daily_log_file
-            )
             try:
                 event_service_instance.delete_event(title, logged_in_user.username, sys_users, datafile)
                 utils.write_to_daily_log_file(
@@ -604,6 +780,7 @@ def submenu_delete_event():
                 "Choice " + str(choice), daily_log_file
             )
             print("Invalid choice! Please try again.")
+            submenu_delete_event()
 
 
 def submenu_logout():
@@ -621,20 +798,22 @@ def submenu_logout():
             "Logout function: No user is currently logged in", daily_log_file
         )
         print("No user is currently logged in.")
-        return
-
+        auth_menu()
+    print("======================================================================================================")
     print(
         "Are you sure you want to logout from [", logged_in_user.username, "]?")
     print("1. Yes")
     print("2. No")
-    choice = input("Enter your choice: ")
+    print("======================================================================================================")
     while True:
+        choice = input("Enter your choice: ")
         if choice == "1":
             utils.write_to_daily_log_file(
                 "Logout function: User " + str(logged_in_user) +
                 "Choice " + str(choice), daily_log_file
             )
             try:
+                utils.write_to_daily_log_file("User details loaded successfully!" + "\n", daily_log_file)
                 user_service.UserService().logout_user(sys_users, logged_in_user.username)
                 print("User logged out successfully!")
                 utils.write_to_daily_log_file(
@@ -642,25 +821,27 @@ def submenu_logout():
                 )
                 logged_in_user = None
                 auth_menu()
+                break  # Exit the loop after successful logout
             except Exception as e:
                 utils.write_to_daily_log_file(
                     "Logout function: Error " + str(e), daily_log_file
                 )
                 print("Error: ", e)
-                break
+                break  # Exit the loop if an error occurs
         elif choice == "2":
             utils.write_to_daily_log_file(
                 "Logout function: User " + str(logged_in_user) +
                 "Choice " + str(choice), daily_log_file
             )
             main_menu()
-            break
+            break  # Exit the loop if the user chooses not to logout
         else:
             utils.write_to_daily_log_file(
                 "Logout function: User " + str(logged_in_user) +
                 "Choice " + str(choice), daily_log_file
             )
             print("Invalid choice! Please try again.")
+            submenu_logout()
 
 
 class EventSchedulerUI:
@@ -679,6 +860,5 @@ class EventSchedulerUI:
         """
         Start the event scheduler UI.
         """
-        utils.create_log_file_if_not_exists()
         auth_menu()
         pass
