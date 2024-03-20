@@ -50,10 +50,17 @@ _User_ : a user is defined by a username, a password, an email, a fullname, a st
 
 #### Security
 
+<p align="center">
+  <img width="400" height="800" src="resources/diagrams/user_authentication_flow.drawio.png">
+</p>
+
+
 - The system security process is handled with the use of sha256 hashing algorithm.
 - User's password is hashed before being stored in the database.
 
 #### Relationships
+
+![Entities relationship diagram](resources/diagrams/events_entities_relationship.drawio.png)
 
 - A user can create multiple events.
 - An event is created by a user.
