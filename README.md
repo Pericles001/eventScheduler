@@ -641,72 +641,72 @@ The module ui contains the user interface and the main functions of the applicat
         - In case of exit, the function logs the user out of the system.
 
 
-    submenu_create_event_category() [ function ] : function that contains the submenu dedicated to create an event category.
-    - asks the user to choose the action to perform.
-    - Check for input validity.
-    - Switch the content to a submenu depending on the user choice to create an event.
-
-    submenu_create_event_manual() [ function ] : function that contains the submenu dedicated to create an event manually.
-    - asks the user to choose the action to perform.
-    - Ask the user to input the details of the event to create.
-    - Check for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - In case of valid input, the function creates the event.
-
-    submenu_create_event_file() [ function ] : function that contains the submenu dedicated to create an event from a file.
-    - asks the user to choose the action to perform.
-    - Ask the user to choose between json option and flat file option.
-    - Check for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - Depending on the user choice, the function calls the corresponding subfunction.
-
-    submenu_create_event_json() [ function ] : function that contains the submenu dedicated to create an event from a json file.
-    - asks the user to choose the action to perform.
-    - Ask the user to input the path of the json file.
-    - Check for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - In case of valid input, the function creates the event based on the content in the json file.
-
-    submenu_create_event_flat() [ function ] : function that contains the submenu dedicated to create an event from a flat file.
-    - asks the user to choose the action to perform.
-    - Ask the user to input the path of the flat file.
-    - Check for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - In case of valid input, the function creates the event based on the content in the flat file.
-    - In case of exit, the function returns to the previous menu.
-
-
-    submenu_view_event() [ function ] : function that contains the submenu dedicated to decide how to view events.
-    - asks the user to choose the action to perform.
-    - Check for input validity.
-    - Switch the content to a submenu depending on the user choice to view events.
-    
-
-    submenu_view_specific_event() [ function ] : function that contains the submenu dedicated to view a specific event.
-    - asks the user to choose the action to perform.
-    - Checks for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - In case of valid input, the function displays the event details.
-
-    submenu_update_event() [ function ] : function that contains the submenu dedicated to update an event.
-    - asks the user to choose the action to perform.
-    - Check for input validity.
-    - In case the user chooses to update an event, the function asks the user to input the event desired updates.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - In case of valid input, the function updates the event.
-
-    submenu_delete_event() [ function ] : function that contains the submenu dedicated to delete an event.
-    - asks the user to choose the action to perform.
-    - In case the user chooses to delete an event, the function asks the user to input the event title for the event to delete.
-    - Check for input validity.
-    - In case of invalid input, the function alerts the user and asks for new inputs.
-    - Check if the event exists.
-    - In case of non-existing event, the function alerts the user and asks for new inputs.
-    - In case of existing event, the function deletes the function from the user's functions and delete from the file.
-
-    submenu_logout() [ function ] : function that contains the submenu dedicated to logout the user.
-    - asks the user to confirm the logout.
-    - In case of confirmation, the function logs the user out of the system.
+      submenu_create_event_category() [ function ] : function that contains the submenu dedicated to create an event category.
+      - asks the user to choose the action to perform.
+      - Check for input validity.
+      - Switch the content to a submenu depending on the user choice to create an event.
+  
+      submenu_create_event_manual() [ function ] : function that contains the submenu dedicated to create an event manually.
+      - asks the user to choose the action to perform.
+      - Ask the user to input the details of the event to create.
+      - Check for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - In case of valid input, the function creates the event.
+  
+      submenu_create_event_file() [ function ] : function that contains the submenu dedicated to create an event from a file.
+      - asks the user to choose the action to perform.
+      - Ask the user to choose between json option and flat file option.
+      - Check for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - Depending on the user choice, the function calls the corresponding subfunction.
+  
+      submenu_create_event_json() [ function ] : function that contains the submenu dedicated to create an event from a json file.
+      - asks the user to choose the action to perform.
+      - Ask the user to input the path of the json file.
+      - Check for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - In case of valid input, the function creates the event based on the content in the json file.
+  
+      submenu_create_event_flat() [ function ] : function that contains the submenu dedicated to create an event from a flat file.
+      - asks the user to choose the action to perform.
+      - Ask the user to input the path of the flat file.
+      - Check for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - In case of valid input, the function creates the event based on the content in the flat file.
+      - In case of exit, the function returns to the previous menu.
+  
+  
+      submenu_view_event() [ function ] : function that contains the submenu dedicated to decide how to view events.
+      - asks the user to choose the action to perform.
+      - Check for input validity.
+      - Switch the content to a submenu depending on the user choice to view events.
+      
+  
+      submenu_view_specific_event() [ function ] : function that contains the submenu dedicated to view a specific event.
+      - asks the user to choose the action to perform.
+      - Checks for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - In case of valid input, the function displays the event details.
+  
+      submenu_update_event() [ function ] : function that contains the submenu dedicated to update an event.
+      - asks the user to choose the action to perform.
+      - Check for input validity.
+      - In case the user chooses to update an event, the function asks the user to input the event desired updates.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - In case of valid input, the function updates the event.
+  
+      submenu_delete_event() [ function ] : function that contains the submenu dedicated to delete an event.
+      - asks the user to choose the action to perform.
+      - In case the user chooses to delete an event, the function asks the user to input the event title for the event to delete.
+      - Check for input validity.
+      - In case of invalid input, the function alerts the user and asks for new inputs.
+      - Check if the event exists.
+      - In case of non-existing event, the function alerts the user and asks for new inputs.
+      - In case of existing event, the function deletes the function from the user's functions and delete from the file.
+  
+      submenu_logout() [ function ] : function that contains the submenu dedicated to logout the user.
+      - asks the user to confirm the logout.
+      - In case of confirmation, the function logs the user out of the system.
 
 - `__init__.py` : the module initializer.
 
@@ -745,11 +745,53 @@ called later depending on the requirement.
 
 ### Diagrams
 
+The diagrams used to design the system are : 
+
 #### Use Case Diagram
+
+![Use case diagram](resources/diagrams/use_case_events_scheduler.drawio.png)
+
+_The use case diagram shows the interactions between the user and the system._
+
+- A user should register to access the system functionalities.
+- A user should be logged in the system to use the features available.
+- A user can manage their account : update, delete and view their account details.
+- A user can create events in the system.
+- A user can view events in the system.
+- A user can update events in the system.
+- A user can delete events in the system.
 
 #### Class Diagram
 
-#### Sequence Diagram
+![Class diagram](resources/diagrams/base_classes_diagram.png)
+
+_Class diagram : model classes_
+
+![Class diagram](resources/diagrams/auth_classes_diagram.png)
+
+_Class diagram : auth classes_
+
+![Class diagram](resources/diagrams/io_class_diagram.png)
+
+_Class diagram : io classes_
+
+![Class diagram](resources/diagrams/exception_class_diagram.png)
+
+_Class diagram : exception classes_
+
+![Class diagram](resources/diagrams/repository_class_diagram.png)
+
+_Class diagram : repository classes_
+
+![Class diagram](resources/diagrams/service_class_diagram.png)
+
+_Class diagram : service classes_
+
+![Class diagram](resources/diagrams/ui_class_diagram.png)
+
+_Class diagram : ui classes_
+
+
 
 ## Technologies
 
