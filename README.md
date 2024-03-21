@@ -745,11 +745,53 @@ called later depending on the requirement.
 
 ### Diagrams
 
+The diagrams used to design the system are : 
+
 #### Use Case Diagram
+
+![Use case diagram](resources/diagrams/use_case_events_scheduler.drawio.png)
+
+_The use case diagram shows the interactions between the user and the system._
+
+- A user should register to access the system functionalities.
+- A user should be logged in the system to use the features available.
+- A user can manage their account : update, delete and view their account details.
+- A user can create events in the system.
+- A user can view events in the system.
+- A user can update events in the system.
+- A user can delete events in the system.
 
 #### Class Diagram
 
-#### Sequence Diagram
+![Class diagram](resources/diagrams/base_classes_diagram.png)
+
+_Class diagram : model classes_
+
+![Class diagram](resources/diagrams/auth_classes_diagram.png)
+
+_Class diagram : auth classes_
+
+![Class diagram](resources/diagrams/io_class_diagram.png)
+
+_Class diagram : io classes_
+
+![Class diagram](resources/diagrams/exception_class_diagram.png)
+
+_Class diagram : exception classes_
+
+![Class diagram](resources/diagrams/repository_class_diagram.png)
+
+_Class diagram : repository classes_
+
+![Class diagram](resources/diagrams/service_class_diagram.png)
+
+_Class diagram : service classes_
+
+![Class diagram](resources/diagrams/ui_class_diagram.png)
+
+_Class diagram : ui classes_
+
+
 
 ## Technologies
 
