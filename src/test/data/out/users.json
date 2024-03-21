@@ -1,0 +1,18 @@
+[
+  {
+    "username": "test_user",
+    "password": "10a6e6cc8311a3e2bcc09bf6c199adecd5dd59408c343e926b129c4914f3cb01",
+    "email": "test_email",
+    "full_name": "test_full_name",
+    "status": 0,
+    "events": []
+  },
+  {
+    "username": "test_user",
+    "password": "10a6e6cc8311a3e2bcc09bf6c199adecd5dd59408c343e926b129c4914f3cb01",
+    "email": "test_email",
+    "full_name": "test_full_name",
+    "status": 0,
+    "events": []
+  }
+]
