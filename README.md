@@ -849,6 +849,215 @@ cd eventScheduler
 python main.py
 ```
 
+### User journey
+
+The user in the system has different options and features to test. 
+
+
+0. Main menu
+
+
+![main_menu](resources/screenshots/user_journey/1-main_menu.png)
+
+        The main menu displays the different options available to the user.
+        The user can choose between registering, logging in the system, exiting the system.
+
+
+1. Register a user in the system.
+
+
+![register_user](resources/screenshots/user_journey/0-register_user.png)
+
+
+        The register option gives user opportunity to create an account in the system.
+        The user is prompted to input his username, password, email and fullname.
+        The user is alerted in case of empty inputs.
+        The user is alerted in case of invalid inputs.
+        The user is alerted in case of existing username.
+        The user is alerted in case of successful registration.
+         The user is alerted in case of unsuccessful registration.
+          Once the user is registered, the account is saved in the system and the application autocloses to save the data.
+
+
+
+2. Log in the system.
+
+![login_user](resources/screenshots/user_journey/2-login_menu.png)
+
+          The login menu displays the different options available to log in the system.
+            The user can choose between logging in the system or exiting the system.
+            In case of logging in the system, the user is prompted to input his username and password.
+            In case of invalid input, the user is alerted and asked to input new values.
+            In case of valid input, the user is logged in the system.
+
+
+
+3. Manage the user account.
+
+![user_profile_menu](resources/screenshots/user_journey/4-user_profile_menu.png)
+
+The menu allows a user to update, view or delete their own account.
+
+- Update the user account.
+
+![user-update_account](resources/screenshots/user_journey/6-user_update.png)
+
+
+        Update the user account requires the user to input the field to update.
+        The user is prompted to enter the updated values for each of his attributes.
+        A user can maintain the same attributes by retyping them.
+        In case of invalid input, the user is alerted and asked to input new values.
+        In case of valid input, the user account is updated in the system.
+
+
+- View the user account.
+
+![view_user_account](resources/screenshots/user_journey/5-user_profile_view.png)
+
+
+          View the user account displays the user details to the user.
+            The user can view his username, email, fullname and status.
+          status represents if a user is connected or not. 0 for disconnected and 1 for connected.
+
+
+- Delete the user account.
+
+![delete_user_account](resources/screenshots/user_journey/7-delete_account.png)
+
+        Delete the user account requires the user to confirm the deletion.
+        In case of confirmation, the user account is deleted from the system.
+
+
+
+4. Create an event.
+
+The event creation _from file_ menu is displayed : 
+
+
+![event_creation_menu](resources/screenshots/user_journey/8-create_event_menu.png)
+
+      The event creation menu displays the different options available to create an event.
+      The user can choose between creating an event manually, from a json file or from a flat file.
+
+- Import event from json file
+
+![Import event from json file](resources/screenshots/user_journey/9-event_from_json.png)
+
+      Import event from json file requires the user to input the path of the json file.
+      the path should be an absolute path.
+
+      Eg: D:\workspace\personal_workspace\plentifyChallenge\eventScheduler\data\in\event_data.json
+
+      the json file should contain one or many event details in the following format.
+      
+
+
+```json
+[
+  {
+    "title": "The Shawshank Redemption",
+    "date": "2024-04-01",
+    "description": "Two imprisoned people trying to survive in a prison."
+  },
+  {
+    "title": "The Godfather",
+    "date": "2024-04-01",
+    "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son."
+  },
+  {
+    "title": "The Dark Knight",
+    "date": "2024-04-01",
+    "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
+  }
+]
+```
+
+
+      once the correct path is mentionned, the event or events are created in the system.
+
+- Import event from flat file (.txt)
+
+![Import event from flat file](resources/screenshots/user_journey/10-event_from_flat.png)
+
+      Import event from flat file requires the user to input the path of the flat file.
+      the path should be an absolute path.
+
+      Eg: D:\workspace\personal_workspace\plentifyChallenge\eventScheduler\data\in\event_data.txt
+
+      the flat file should contain one or many event details in the following format.
+      
+```text
+The Shawshank Redemption,2024-04-01,Two imprisoned people trying to survive in a prison.
+```
+
+        once the correct path is mentionned, the event or events are created in the system.
+
+
+
+- Create an event manually.
+
+![create_event_manually](resources/screenshots/user_journey/11-create_event_manually.png)
+
+      Create an event manually requires the user to input the title, date and description of the event.
+      The date should be in the format YYYY-MM-DD.
+      The description should be a string of characters.
+      The title should be a string of characters.
+      In case of invalid input, the user is alerted and asked to input new values.
+      In case of valid input, the event is created in the system.
+
+
+5. View events.
+
+
+- View all events.
+
+![View all events](resources/screenshots/user_journey/15-view_all_events.png)
+
+      View all events requires the user to select the option of viewing all events.
+      All events are searched and sorted according to the date value in chronological order.
+
+
+- View specific event.
+
+![View specific event](resources/screenshots/user_journey/16-view_specific_event.png)
+
+      View specific event requires the user to input the title of the event to view.
+      If the event exists, the event details are displayed to the user when he confirms the action.
+      In case of non-existing event, the user is alerted and asked to input a new title.
+
+
+
+6. Update an event.
+
+![Update event](resources/screenshots/user_journey/12-update_event.png)
+
+      Update an event requires the user to input the title of the event to update.
+      If the event exists, the user is asked to input the new details of the event.
+        In case of confirmation, the event is updated in the system.
+
+
+
+
+7. Delete an event.
+
+![Delete event](resources/screenshots/user_journey/13-delete_event.png)
+
+
+      Delete an event requires the user to input the title of the event to delete.
+      If the event exists, the user is asked to confirm the deletion.
+        In case of confirmation, the event is deleted from the system.
+
+
+
+8. Log out of the system.
+
+![Logging-out](resources/screenshots/user_journey/14-loggout.png)
+
+      
+    Logging out of the system requires to confirm the action.
+    In case of confirmation, the user is logged out of the system.
+    In case of exit, the user is redirected to the main menu.
+
 _Note_ : Depending on your system, you might need to use `python3` instead of `python`.
 
 ## Authors
