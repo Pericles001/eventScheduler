@@ -161,7 +161,8 @@ class EventServices:
 
                             # Write the updated data to the database file
                             with open(datafile, 'w') as f:
-                                json.dump(sys_users, f, indent=4)
+                                # json.dump(sys_users, f, indent=4)
+                                json.dump(list(sys_users.values()), f, indent=4)
                                 print("Data written to file")
                                 break
 
@@ -190,7 +191,8 @@ class EventServices:
 
                             # Write the updated data to the database file
                             with open(datafile, 'w') as f:
-                                json.dump(sys_users, f, indent=4)
+                                # json.dump(sys_users, f, indent=4)
+                                json.dump(list(sys_users.values()), f, indent=4)
                                 print("Data written to file")
                                 break
         except ValueError as ve:

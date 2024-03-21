@@ -58,11 +58,12 @@ def register_user():
                 if user_service.UserService().get_user(sys_users, username):
                     print("User already exists!")
                     utils.write_to_daily_log_file("User registration function: User already exists ", daily_log_file)
+                    auth_menu()
                     break
                 user_service.UserService().create_user(user_data)
                 utils.write_to_daily_log_file("User registration function: User created successfully ", daily_log_file)
-                print("User created successfully! Login to continue.")
-                auth_menu()
+                print("User created successfully! Program exit : Restart and login to continue!")
+                exit(0)
                 break
             except Exception as e:
                 print("Error: ", e)
