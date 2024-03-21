@@ -792,6 +792,68 @@ _Class diagram : service classes_
 _Class diagram : ui classes_
 
 
+#### Data schemas
+
+
+The data has been implemented in form of a json database.
+
+The format of the database is as follows:
+
+```json
+[
+    {
+        "username": "r",
+        "password": "454349e422f05297191ead13e21d3db520e5abef52055e4964b82fb213f593a1",
+        "email": "r",
+        "full_name": "r",
+        "status": 0,
+        "events": []
+    },
+    {
+        "username": "test",
+        "password": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "email": "test",
+        "full_name": "test",
+        "status": 1,
+        "events": [
+            {
+                "title": "The Shawshank Redemption",
+                "date": "2024-04-01",
+                "description": "Two imprisoned people trying to survive in a prison."
+            },
+            {
+                "title": "The Godfather",
+                "date": "2024-04-01",
+                "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son."
+            },
+            {
+                "title": "The Dark Knight",
+                "date": "2024-04-01",
+                "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
+            },
+            {
+                "title": "Birthday Celebration",
+                "date": "2024-11-10",
+                "description": "Surprise party! Decorations, cake, and games."
+            }
+        ]
+    },
+    {
+        "username": "check",
+        "password": "20f65c28671b40937c5bf23acc7c6f37e5a5ec0622e347b57685725df5ba9e50",
+        "email": "check@mail",
+        "full_name": "checker",
+        "status": 0,
+        "events": []
+    }
+]
+```
+
+- the database file is stored in the data/out folder with the name users.json
+- The idea is that the user can register, login, create events, view events, update events and delete events based on 
+their interactions in the system.
+- Using a list of json objects allows to map a desired attribute using indexes and performing operations in a faster runtime.
+
 
 ## Technologies
 
@@ -829,9 +891,26 @@ The prerequisites for using the system are :
 
 1. Clone the repository:
 
+
+- Direct access
+
 ```bash
 git clone https://github.com/Pericles001/eventScheduler.git
 ```
+
+- Token access
+
+```bash
+git clone https://<username>:<token>@github.com/<username>/<repo>.git
+
+Token: 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
+```
+
+```bash
+git clone https://Pericles001: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@github.com/Pericles001/eventScheduler.git
+```
+
+
 
 ### Running
 
