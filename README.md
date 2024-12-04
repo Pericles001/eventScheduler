@@ -898,19 +898,6 @@ The prerequisites for using the system are :
 git clone https://github.com/Pericles001/eventScheduler.git
 ```
 
-- Token access
-
-```bash
-git clone https://<username>:<token>@github.com/<username>/<repo>.git
-
-Token: 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
-```
-
-```bash
-git clone https://Pericles001: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@github.com/Pericles001/eventScheduler.git
-```
-
-
 
 ### Running
 
